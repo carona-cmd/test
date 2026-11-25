@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recherche LPP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <h1>Recherche LPP <span class="sub">&amp; décision médicale</span></h1>
+      <div class="actions">
+        <label class="btn ghost">Importer la LPP (CSV)
+          <input type="file" id="importFile" accept=".csv,.txt" hidden>
+        </label>
+        <button class="btn ghost" id="resetData" type="button">Données démo</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <p id="sourceInfo" class="note"></p>
+
+    <form id="searchForm" class="search" autocomplete="off">
+      <input id="q" type="search" placeholder="Code LPP (7 chiffres) ou libellé…" aria-label="Code LPP ou libellé" autofocus>
+      <button class="btn" type="submit">Rechercher</button>
+    </form>
+    <ul id="results" class="results"></ul>
+
+    <section id="detail" class="card" hidden>
+      <div class="detail-head">
+        <div>
+          <div class="code" id="dCode"></div>
+          <h2 id="dLib"></h2>
+          <div class="meta" id="dMeta"></div>
+        </div>
+        <div class="tarif" id="dTarif"></div>
+      </div>
+
+      <h3>Ajouter une décision médicale</h3>
+      <form id="decisionForm" class="grid">
+        <label>Référence patient / dossier
+          <input name="patient" required placeholder="ex. DOS-2026-0042">
+        </label>
+        <label>Date de la décision
+          <input name="date" type="date" required>
+        </label>
+        <label>Décision
+          <select name="decision" required>
+            <option value="Accord">Accord</option>
+            <option value="Accord partiel">Accord partiel</option>
+            <option value="Refus">Refus</option>
+            <option value="Ajournement">Ajournement / demande de pièces</option>
+          </select>
+        </label>
+        <label>Médecin
+          <input name="medecin" required placeholder="Dr …">
+        </label>
+        <label>Quantité accordée
+          <input name="quantite" type="number" min="0" step="1" value="1">
+        </label>
+        <label>Durée (jours)
+          <input name="duree" type="number" min="0" step="1" placeholder="facultatif">
+        </label>
+        <label class="full">Motif / justification médicale
+          <textarea name="motif" rows="3" required></textarea>
+        </label>
+        <div class="full row">
+          <button class="btn" type="submit">Enregistrer la décision</button>
+        </div>
+      </form>
+
+      <h3>Décisions pour ce code</h3>
+      <div id="codeDecisions"></div>
+    </section>
+
+    <section class="card">
+      <div class="row between">
+        <h3>Toutes les décisions</h3>
+        <div class="row">
+          <button class="btn ghost" id="exportCsv" type="button">Exporter CSV</button>
+          <button class="btn ghost" id="exportJson" type="button">Exporter JSON</button>
+          <label class="btn ghost">Importer JSON
+            <input type="file" id="importJson" accept=".json" hidden>
+          </label>
+        </div>
+      </div>
+      <div id="allDecisions"></div>
+    </section>
+
+    <p class="note small">Les décisions sont enregistrées uniquement dans ce navigateur (localStorage). Exportez-les régulièrement. N'y saisissez pas de nom de patient : utilisez une référence de dossier.</p>
+  </main>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
